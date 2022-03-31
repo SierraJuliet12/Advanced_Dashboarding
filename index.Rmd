@@ -2,7 +2,7 @@
 title: "Advanced Dashboarding"
 output: 
   flexdashboard::flex_dashboard:
-    orientation: columns
+    orientation: row
     vertical_layout: fill
     social: ["menu"]
     source_code: embed
@@ -22,20 +22,32 @@ data("penguins")
 ```
 Plots {data-navmenu="Pages"}
 =====================================================
+
 Sidebar {.sidebar}
 -----------------------------------------------------
 
 ### Penguin Stats
 The number of penguins in the data is `r nrow(penguins)`
 
-<!--The tabset makes the next three sections tabs -->
-
-Row
+Row 
 ---------------------------------------------------------------------
 
 ### Number of penguins
 ```{r}
 valueBox(nrow(penguins), icon="fa-linux")
+```
+
+### Average Body Mass
+
+```{r}
+avg_mass = round(mean(penguins$body_mass_g, na.rm=T), 1)
+
+gauge(avg_mass, 
+      min(0),
+      max = max(penguins$body_mass_g, na.rm=T),
+      gaugeSectors(success = c(4000,6300),
+                   warning = c(2000, 3999),
+                   danger = c(0,1999)))
 ```
 
 Column {.tabset}
